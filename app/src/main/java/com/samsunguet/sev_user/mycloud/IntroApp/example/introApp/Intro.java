@@ -1,9 +1,11 @@
 package com.samsunguet.sev_user.mycloud.IntroApp.example.introApp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.github.paolorotolo.appintro.AppIntro;
+import com.samsunguet.sev_user.mycloud.MainActivity;
 import com.samsunguet.sev_user.mycloud.R;
 
 /**
@@ -20,15 +22,21 @@ public class Intro extends AppIntro {
 
     @Override
     public void onSkipPressed() {
+        Intent main = new Intent(getBaseContext(),MainActivity.class);
+        startActivity(main);
         finish();
     }
 
     @Override
     public void onDonePressed() {
+        Intent main = new Intent(getBaseContext(),MainActivity.class);
+        startActivity(main);
         finish();
     }
 
     public void getStarted(View v){
+        Intent main = new Intent(getBaseContext(),MainActivity.class);
+        startActivity(main);
         finish();
     }
 

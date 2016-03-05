@@ -29,10 +29,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Boolean isFirstRun = getSharedPreferences("PREFERENCE",MODE_PRIVATE).getBoolean("isFirstRun",true);
+        Boolean isLogin = getSharedPreferences("PREFERENCE",MODE_PRIVATE).getBoolean("isLogIn",false);
         if(isFirstRun){
+            System.out.println("DA CHAY VAO DAY NHE");
             getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit().putBoolean("isFirstRun",false).commit();
             Intent intro = new Intent(getBaseContext(),Intro.class);
             startActivity(intro);
+            finish();
+        }
+
+        else if(!isLogin){
+            Intent login = new Intent(getBaseContext(),Login.class);
+            startActivity(login);
+            finish();
         }
 
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("Home");
