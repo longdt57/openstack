@@ -1,8 +1,14 @@
 package com.samsunguet.sev_user.mycloud;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,12 +29,15 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.samsunguet.sev_user.mycloud.IntroApp.example.introApp.Intro;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +76,23 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(MainActivity.this, "Click folder", Toast.LENGTH_LONG).show();
                                         break;
                                     case R.id.imgUploadFileInDialog:
-                                        Toast.makeText(MainActivity.this, "Click Upload", Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(MainActivity.this, "Click Upload", Toast.LENGTH_LONG).show();
+                                        Intent i = new Intent(MainActivity.this, FilePickerActivity.class);
+                                        // This works if you defined the intent filter
+                                        // Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+
+                                        // Set these depending on your use case. These are the defaults.
+                                        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+                                        i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
+                                        i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
+
+                                        // Configure initial directory by specifying a String.
+                                        // You could specify a String like "/storage/emulated/0/", but that can
+                                        // dangerous. Always use Android's API calls to get paths to the SD-card or
+                                        // internal memory.
+                                        i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
+
+                                        startActivityForResult(i, 1);
                                         break;
                                     case R.id.imgUploadPhotoInDialog:
                                         Toast.makeText(MainActivity.this, "Click Camera", Toast.LENGTH_LONG).show();
@@ -137,6 +162,39 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
     }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            if (data.getBooleanExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)) {
+                // For JellyBean and above
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ClipData clip = data.getClipData();
 
+                    if (clip != null) {
+                        for (int i = 0; i < clip.getItemCount(); i++) {
+                            Uri uri = clip.getItemAt(i).getUri();
+                            // Do something with the URI
+                        }
+                    }
+                    // For Ice Cream Sandwich
+                } else {
+                    ArrayList<String> paths = data.getStringArrayListExtra
+                            (FilePickerActivity.EXTRA_PATHS);
+
+                    if (paths != null) {
+                        for (String path: paths) {
+                            Uri uri = Uri.parse(path);
+                            // Do something with the URI
+                        }
+                    }
+                }
+
+            } else {
+                Uri uri = data.getData();
+                // Do something with the URI
+            }
+        }
+    }
 
 }
