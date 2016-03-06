@@ -6,8 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -31,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         Boolean isFirstRun = getSharedPreferences("PREFERENCE",MODE_PRIVATE).getBoolean("isFirstRun",true);
         Boolean isLogin = getSharedPreferences("PREFERENCE",MODE_PRIVATE).getBoolean("isLogIn",false);
         if(isFirstRun){
-            System.out.println("DA CHAY VAO DAY NHE");
             getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit().putBoolean("isFirstRun",false).commit();
             Intent intro = new Intent(getBaseContext(),Intro.class);
             startActivity(intro);
@@ -43,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(login);
             finish();
         }
+
+        ListView listView = (ListView) findViewById(R.id.listview);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatButton);
+        fab.attachToListView(listView);
 
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("Home");
         item1.withBadge("19").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700));
