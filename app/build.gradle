@@ -39,4 +39,6 @@ dependencies {
     compile 'com.orhanobut:dialogplus:1.11@aar'
     compile 'com.nononsenseapps:filepicker:2.5.2'
     compile 'com.github.medyo:fancybuttons:1.5@aar'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.github.rey5137:material:1.2.2'
 }

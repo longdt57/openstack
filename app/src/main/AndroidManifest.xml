@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".IntroApp.example.introApp.Intro"></activity>
         <activity android:name=".Login"></activity>
+        <activity android:name=".SettingActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

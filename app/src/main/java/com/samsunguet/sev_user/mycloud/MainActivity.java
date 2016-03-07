@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intro = new Intent(getBaseContext(), Intro.class);
             startActivity(intro);
             finish();
-        } else if (!isLogin) {
+        }
+        else if (!isLogin) {
             Intent login = new Intent(getBaseContext(), Login.class);
             startActivity(login);
             finish();
@@ -131,6 +132,15 @@ public class MainActivity extends AppCompatActivity {
         item2.withIcon(R.drawable.icon_photo);
         SecondaryDrawerItem item3 = new SecondaryDrawerItem().withName("Setting");
         item3.withIcon(R.drawable.icon_setting);
+        item3.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+            @Override
+            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                Intent i = new Intent(MainActivity.this,SettingActivity.class);
+                startActivity(i);
+                return true;
+            }
+        });
+
         SecondaryDrawerItem item4 = new SecondaryDrawerItem().withName("About");
         item4.withIcon(R.drawable.icon_about);
 
