@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     >
 
     <ImageView
@@ -13,7 +14,6 @@
         android:layout_gravity="center_horizontal" />
 
     <EditText
-        android:layout_marginTop="15dp"
         android:hint="User name"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
@@ -24,7 +24,7 @@
 
     <EditText
         android:hint="Your password"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_width="match_parent"
@@ -34,15 +34,41 @@
         android:id="@+id/edtPasswordInLogIn"
         android:layout_gravity="center_horizontal" />
 
-    <Button
-        android:textColor="#FF5722"
-        android:layout_marginTop="40dp"
-        android:background="#FFFFFF"
+    <mehdi.sakout.fancybuttons.FancyButton
+        fancy:fb_radius = "15dp"
+        fancy:fb_textColor="#FFFFFF"
+        android:layout_marginTop="20dp"
+        fancy:fb_defaultColor="#FF5722"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Sign in"
-        android:textSize="20dp"
-        android:textAllCaps="false"
+        fancy:fb_text="LOGIN"
+        fancy:fb_textSize="20dp"
+
         android:id="@+id/btnSignIn"
+        android:layout_gravity="center"
+        fancy:fb_textGravity="center_horizontal" />
+
+    <TextView
+        android:layout_marginTop="25dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="-------------- OR --------------"
+        android:id="@+id/textView9"
         android:layout_gravity="center_horizontal" />
+    <mehdi.sakout.fancybuttons.FancyButton
+        fancy:fb_radius = "15dp"
+        fancy:fb_textColor="#FF5722"
+        android:layout_marginTop="20dp"
+        fancy:fb_defaultColor="#FFFFFF"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        fancy:fb_text="SIGN UP"
+        fancy:fb_textSize="20dp"
+
+        android:id="@+id/btnSignUp"
+        android:layout_gravity="center"
+        fancy:fb_textGravity="center_horizontal" />
+
 </LinearLayout>

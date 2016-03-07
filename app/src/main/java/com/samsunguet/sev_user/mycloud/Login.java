@@ -7,11 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 /**
  * Created by MeHuong on 3/5/2016.
  */
 public class Login extends Activity {
-    Button btnSignIn;
+    FancyButton btnSignIn;
     EditText edtUserName,edtPassword;
 
     @Override
@@ -19,7 +21,7 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        btnSignIn = (Button)findViewById(R.id.btnSignIn);
+        btnSignIn = (FancyButton)findViewById(R.id.btnSignIn);
         edtUserName = (EditText)findViewById(R.id.edtUserNameInLogIn);
         edtPassword = (EditText)findViewById(R.id.edtPasswordInLogIn);
 
