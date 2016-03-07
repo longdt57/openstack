@@ -30,6 +30,9 @@ public class User {
     public String getStorageUrl(){return storageUrl!=null ? storageUrl:"";}
 
     public void setStorageUrl(String url){this.storageUrl = url;}
-
-
+    public void setToken(Token token){this.token = token;}
+    public String toString(){
+        return "name: "+ username + "\npass: "+password+"\ntokenid: "+token.getId()+
+                "\n tenant: "+tenant.getName()+"\nstorageurl: "+storageUrl;
+    }
 }

@@ -1,16 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.samsunguet.sev_user.mycloud.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+
+    <LinearLayout
+        android:background="#FF5722"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <ImageView
+            android:src="@drawable/icon_hamburger"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/imgHamburgerButton" />
+
+        <TextView
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/imgHamburgerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cloud của tôi"
+            android:id="@+id/tvMyCloud" />
+
+        <ImageView
+            android:src="@drawable/icon_search"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="80dp"
+            android:layout_toRightOf="@+id/tvMyCloud"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/imgSearchButton" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_marginTop="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1" />
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/floatButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp"
+        fab:fab_colorNormal="#FF5722"
+        fab:fab_colorPressed="#dd2c00"
+        fab:fab_colorRipple="#e64a19" />
+
+</FrameLayout>

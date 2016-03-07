@@ -7,6 +7,7 @@ import com.samsunguet.sev_user.mycloud.log.MyLog;
 import com.samsunguet.sev_user.mycloud.object.Token;
 import com.samsunguet.sev_user.mycloud.object.User;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -20,16 +21,16 @@ import java.net.URL;
 /**
  * Created by sev_user on 3/7/2016.
  */
-public class RequestToken {
+public class OpenStackAPI {
     String url;
     User user;
 
-    public RequestToken(String url, User user){
+    public OpenStackAPI(String url, User user){
         this.url    = url;
         this.user   = user;
     }
 
-    public boolean getTokenandStorageurl(){
+    public boolean setTokenandStorageurl(){
         StringBuilder result = new StringBuilder();
         String request = "{" +
                 "\"auth\": {\"tenantName\": \""+user.getTenant().getName()+"\",       " +
@@ -39,7 +40,7 @@ public class RequestToken {
 
         try{
             HttpURLConnection connection = (HttpURLConnection) new
-                    URL("http://192.168.10.102:5000/v2.0/tokens").openConnection();
+                    URL(url).openConnection();
             connection.setDoOutput(true);
             connection.setFixedLengthStreamingMode(request.getBytes().length);
 
@@ -73,7 +74,28 @@ public class RequestToken {
             inread.close();
             in.close();
 
-            JSONObject jsonObject
+            JSONObject jsonObject = new JSONObject(result.toString());
+            JSONObject jsonObject1 = jsonObject.getJSONObject("access");
+            String token = jsonObject1.getString("token");
+
+            //set token
+            user.setToken(new Token(token));
+
+            JSONArray jsonArray = jsonObject1.getJSONArray("serviceCatalog");
+            for(int i=0; i<jsonArray.length(); i++){
+                JSONObject jsonLineItem = jsonArray.getJSONObject(i);
+                String value = jsonLineItem.getString("type");
+
+                if (value.compareTo("object-store") == 0) {
+                    JSONArray jarray2 = jsonLineItem.getJSONArray("endpoints");
+                    JSONObject object = jarray2.getJSONObject(0);
+
+                    //set storage url
+                    user.setStorageUrl(object.getString("publicURL"));
+                }
+
+            }
+
 
         }catch (Exception e){
             MyLog.log(e.toString());
@@ -82,4 +104,5 @@ public class RequestToken {
 
         return true;
     }
+    public User getUser(){return user;}
 }
