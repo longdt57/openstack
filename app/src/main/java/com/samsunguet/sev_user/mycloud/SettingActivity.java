@@ -29,6 +29,6 @@ public class SettingActivity  extends Activity{
         imgCover = (ImageView)findViewById(R.id.imgCoverInSetting);
         tvUserName = (TextView)findViewById(R.id.tvUserNameInSetting);
         // ACTION EDIT PROFILE
-        
+
     }
 }

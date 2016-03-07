@@ -1,5 +1,7 @@
 package com.samsunguet.sev_user.mycloud.object;
 
+
+
 import com.samsunguet.sev_user.mycloud.log.MyLog;
 
 import org.json.JSONException;
@@ -24,7 +26,10 @@ public class Token {
         this.issued = issued;
     }
 
-    public Token(String jsonstr){
+    public Token(String id){
+        this.id = id;
+    }
+    public void setToken(String jsonstr){
         try {
             JSONObject jsonObject = new JSONObject(jsonstr);
             id          = jsonObject.getString(ID);
@@ -37,7 +42,8 @@ public class Token {
         }
     }
 
-    public String getId(){return id!=null ? id:"";}
+
+    public String getId(){return id!=null ? id:"not set token";}
     public String getExpires(){return expires!=null ? expires:"";}
     public String getIssued(){return issued!=null ? issued:"";}
 }

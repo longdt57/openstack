@@ -41,6 +41,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final static String URL_DEFAULT = "http://107.113.190.176";
     ListView listview;
     FloatingActionButton fab;
 

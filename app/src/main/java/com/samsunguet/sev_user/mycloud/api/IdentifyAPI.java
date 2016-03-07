@@ -1,7 +1,8 @@
 package com.samsunguet.sev_user.mycloud.api;
 
-import android.util.Log;
-import android.widget.Toast;
+
+
+
 
 import com.samsunguet.sev_user.mycloud.log.MyLog;
 import com.samsunguet.sev_user.mycloud.object.Token;
@@ -21,11 +22,11 @@ import java.net.URL;
 /**
  * Created by sev_user on 3/7/2016.
  */
-public class OpenStackAPI {
+public class IdentifyAPI {
     String url;
     User user;
 
-    public OpenStackAPI(String url, User user){
+    public IdentifyAPI(String url, User user){
         this.url    = url;
         this.user   = user;
     }
@@ -54,6 +55,7 @@ public class OpenStackAPI {
             MyLog.log("start get data");
 
             int statusCode = connection.getResponseCode();
+            MyLog.log(statusCode+connection.getResponseMessage());
             if (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
                 MyLog.log("User unauthorized");
                 return false;
@@ -79,7 +81,9 @@ public class OpenStackAPI {
             String token = jsonObject1.getString("token");
 
             //set token
+            MyLog.log(token);
             user.setToken(new Token(token));
+            MyLog.log(user.getToken().getId());
 
             JSONArray jsonArray = jsonObject1.getJSONArray("serviceCatalog");
             for(int i=0; i<jsonArray.length(); i++){
@@ -91,6 +95,7 @@ public class OpenStackAPI {
                     JSONObject object = jarray2.getJSONObject(0);
 
                     //set storage url
+                    MyLog.log(object.getString("publicURL"));
                     user.setStorageUrl(object.getString("publicURL"));
                 }
 
@@ -104,5 +109,7 @@ public class OpenStackAPI {
 
         return true;
     }
+
+
     public User getUser(){return user;}
 }

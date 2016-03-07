@@ -1,5 +1,8 @@
 package com.samsunguet.sev_user.mycloud.object;
 
+
+import com.samsunguet.sev_user.mycloud.MainActivity;
+
 /**
  * Created by sev_user on 3/5/2016.
  */
@@ -17,6 +20,14 @@ public class User {
         this.tenant   = tenant;
     }
 
+    public User(String username, String password, Token token, Tenant tenant, String storageUrl){
+        this.username = username;
+        this.password = password;
+        this.token    = token;
+        this.tenant   = tenant;
+        this.storageUrl = storageUrl;
+    }
+
     public User(String username, String password, Tenant tenant){
         this.username = username;
         this.password = password;
@@ -29,10 +40,14 @@ public class User {
     public Tenant getTenant() {return tenant;}
     public String getStorageUrl(){return storageUrl!=null ? storageUrl:"";}
 
-    public void setStorageUrl(String url){this.storageUrl = url;}
+    public void setStorageUrl(String url){
+        url.replace(" http://10.0.2.15", MainActivity.URL_DEFAULT);
+        this.storageUrl = url;}
     public void setToken(Token token){this.token = token;}
+
     public String toString(){
         return "name: "+ username + "\npass: "+password+"\ntokenid: "+token.getId()+
                 "\n tenant: "+tenant.getName()+"\nstorageurl: "+storageUrl;
     }
+
 }
