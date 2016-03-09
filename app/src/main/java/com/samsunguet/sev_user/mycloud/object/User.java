@@ -13,6 +13,7 @@ public class User {
     Tenant tenant;
     String storageUrl;
 
+    public User(){}
     public User(String username, String password, Token token, Tenant tenant){
         this.username = username;
         this.password = password;
@@ -49,5 +50,8 @@ public class User {
         return "name: "+ username + "\npass: "+password+"\ntokenid: "+token.getId()+
                 "\n tenant: "+tenant.getName()+"\nstorageurl: "+storageUrl;
     }
+    public void setName(String name){this.username = name;}
+    public void setPassword(String password){this.password = password;}
+    public void setTenant(Tenant tenant){this.tenant = tenant;}
 
 }

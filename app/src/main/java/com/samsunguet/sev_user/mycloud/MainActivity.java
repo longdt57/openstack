@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", false);
         boolean isLogin = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isLogIn", false);
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(login);
             finish();
         }
-
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isLogIn", false).commit();
 
         //attach to listview
         fab.attachToListView(listview);
