@@ -5,7 +5,7 @@ package com.samsunguet.sev_user.mycloud.log;
  */
 public class MyLog {
 
-    static String LOG_TAG = "S2 UET CLOUD";
+    static String LOG_TAG = "S2UETCLOUD";
 
     public static void log(String str){
         android.util.Log.i(LOG_TAG, str);

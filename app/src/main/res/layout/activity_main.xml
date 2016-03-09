@@ -1,55 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.samsunguet.sev_user.mycloud.MainActivity">
 
 
-    <LinearLayout
-        android:background="#FF5722"
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="56dp"
+        android:background="#FF5722"
+        android:orientation="horizontal">
 
         <ImageView
-            android:src="@drawable/icon_hamburger"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
+            android:id="@+id/imgHamburgerButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:id="@+id/imgHamburgerButton" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/icon_hamburger" />
 
         <TextView
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/imgHamburgerButton"
+            android:id="@+id/tvMyCloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@+id/imgHamburgerButton"
             android:text="Cloud của tôi"
-            android:id="@+id/tvMyCloud" />
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
 
         <ImageView
-            android:src="@drawable/icon_search"
-            android:layout_marginTop="13dp"
-            android:layout_marginLeft="80dp"
-            android:layout_toRightOf="@+id/tvMyCloud"
+            android:id="@+id/imgSearchButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/imgSearchButton" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="72dp"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@+id/imgMoreButtonInActivity"
+            android:src="@drawable/icon_search" />
 
-    <ListView
-        android:layout_marginTop="36dp"
+        <ImageView
+            android:id="@+id/imgMoreButtonInActivity"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_more_white" />
+    </RelativeLayout>
+
+    <com.yalantis.phoenix.PullToRefreshView
+        android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listview"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="36dp"
+            android:layout_weight="1" />
+    </com.yalantis.phoenix.PullToRefreshView>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/floatButton"

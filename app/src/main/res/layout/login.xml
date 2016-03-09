@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         fancy:fb_text="LOGIN"
         fancy:fb_textSize="20dp"
-
+        fancy:fb_borderWidth = "2dp"
         android:id="@+id/btnSignIn"
         android:layout_gravity="center"
         fancy:fb_textGravity="center_horizontal" />
@@ -62,13 +62,13 @@
         fancy:fb_radius = "15dp"
         fancy:fb_textColor="@color/orangeColor"
         android:layout_marginTop="20dp"
-
+        fancy:fb_borderColor = "@color/orangeColor"
         fancy:fb_defaultColor="#FFFFFF"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         fancy:fb_text="SIGN UP"
         fancy:fb_textSize="20dp"
-
+        fancy:fb_borderWidth = "1dp"
         android:id="@+id/btnSignUp"
         android:layout_gravity="center"
         fancy:fb_textGravity="center_horizontal" />

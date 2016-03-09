@@ -3,7 +3,6 @@ package com.samsunguet.sev_user.mycloud.api;
 
 
 
-
 import com.samsunguet.sev_user.mycloud.log.MyLog;
 import com.samsunguet.sev_user.mycloud.object.Token;
 import com.samsunguet.sev_user.mycloud.object.User;
@@ -55,15 +54,9 @@ public class IdentifyAPI {
             MyLog.log("start get data");
 
             int statusCode = connection.getResponseCode();
-            MyLog.log(statusCode+connection.getResponseMessage());
-            if (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                MyLog.log("User unauthorized");
-                return false;
-            }
-            if (statusCode < 200 || statusCode >= 300) {
-                MyLog.log("Unexpected status code: " + statusCode);
-                String in = connection.getResponseMessage();
-                MyLog.log(in);
+
+            if(statusCode != 200){
+                MyLog.log(statusCode+connection.getResponseMessage());
                 return false;
             }
             InputStream in = connection.getInputStream();

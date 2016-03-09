@@ -28,7 +28,7 @@ public class Login extends Activity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit().putBoolean("isLogIn",true).commit();
+                getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit().putBoolean("isLogIn",true ).commit();
                 Intent main = new Intent(getBaseContext(),MainActivity.class);
                 startActivity(main);
                 finish();

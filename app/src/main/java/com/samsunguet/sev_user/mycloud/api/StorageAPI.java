@@ -4,7 +4,6 @@ import android.renderscript.ScriptGroup;
 
 
 import com.samsunguet.sev_user.mycloud.log.MyLog;
-import com.samsunguet.sev_user.mycloud.object.MyFile;
 import com.samsunguet.sev_user.mycloud.object.MyFolder;
 import com.samsunguet.sev_user.mycloud.object.User;
 
@@ -13,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,6 +26,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -52,8 +53,8 @@ public class StorageAPI {
             MyLog.log(user.getToken().getId());
 
             int statusCode = connection.getResponseCode();
-            if(statusCode!=200){
-                MyLog.log("error!");
+            if(statusCode != 200){
+                MyLog.log(statusCode+connection.getResponseMessage());
                 return null;
             }
             InputStream in = connection.getInputStream();
@@ -86,17 +87,20 @@ public class StorageAPI {
     }
 
     public MyFolder getFolderandFileList(String path){
-        MyFolder myFolder = new MyFolder();
+        String sarr[] = path.split("/");
+        MyFolder myFolder = new MyFolder("", sarr[sarr.length-1],0,"");
         StringBuilder result = new StringBuilder();
         try{
             MyLog.log("start get folder and file list");
             HttpURLConnection connection = (HttpURLConnection)
                     new URL(user.getStorageUrl()+path+"?format=json").openConnection();
+            MyLog.log(user.getStorageUrl()+path+"?format=json");
             connection.setRequestProperty("X-Auth-Token", user.getToken().getId());
 
+
             int statusCode = connection.getResponseCode();
-            if(statusCode!=200){
-                MyLog.log("error!");
+            if(statusCode != 200){
+                MyLog.log(statusCode+connection.getResponseMessage());
                 return null;
             }
             InputStream in = connection.getInputStream();
@@ -110,8 +114,8 @@ public class StorageAPI {
             in.close();
             MyLog.log(result.toString());
 
-            ArrayList<MyFolder> folders = new ArrayList<MyFolder>();
-            ArrayList<MyFile> files     = new ArrayList<MyFile>();
+//            ArrayList<MyFolder> folders = new ArrayList<MyFolder>();
+//            ArrayList<MyFile> files     = new ArrayList<MyFile>();
             JSONArray jsonArray = new JSONArray(result.toString());
             for(int i=0; i<jsonArray.length(); i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -119,18 +123,22 @@ public class StorageAPI {
                 long size   = jsonObject.getLong("bytes");
                 String last_modified = jsonObject.getString("last_modified");
 
-                if(name.charAt(name.length()-1)=='/'){
-                    MyFolder tmp = new MyFolder(path, name, size, last_modified);
-                    folders.add(tmp);
-                    MyLog.log(tmp.toString());
-                }else{
-                    MyFile file = new MyFile(path, name, size, last_modified);
-                    files.add(file);
-                    MyLog.log(file.toString());
-                }
+//                if(name.charAt(name.length()-1)=='/'){
+//                    MyFolder tmp = new MyFolder(path, name, size, last_modified);
+//                    folders.add(tmp);
+//                    MyLog.log(tmp.toString());
+//                }else{
+//                    MyFile file = new MyFile(path, name, size, last_modified);
+//                    files.add(file);
+//                    MyLog.log(file.toString());
+//                }
+                myFolder.addFolderorFile(name, size, last_modified);
+
             }
-            myFolder.setFolders(folders);
-            myFolder.setFiles(files);
+            MyLog.log(myFolder.showAll());
+
+//            myFolder.setFolders(folders);
+//            myFolder.setFiles(files);
 
 
         }catch (Exception e){
@@ -145,8 +153,13 @@ public class StorageAPI {
             HttpURLConnection connection = (HttpURLConnection)
                     new URL(user.getStorageUrl()+sourcepath+"/"+filename).openConnection();
             connection.setRequestProperty("X-Auth-Token", user.getToken().getId());
+            MyLog.log(user.getStorageUrl()+sourcepath+"/"+filename);
 
-            if(connection.getResponseCode()!=200) return false;
+            int statusCode = connection.getResponseCode();
+            if(statusCode != 200){
+                MyLog.log(statusCode+connection.getResponseMessage());
+                return false;
+            }
             InputStream in = connection.getInputStream();
             BufferedInputStream bufin = new BufferedInputStream(in, 1024*5);
 
@@ -158,11 +171,15 @@ public class StorageAPI {
             int lastUpdated = 0;
             int percent = 0;
             int fileSize = connection.getContentLength();
+            MyLog.log(fileSize+"");
 
             while((len=bufin.read(buff))!=-1){
                 total+=len;
                 percent = (int) (total * 100 / fileSize);
                 fout.write(buff, 0, len);
+                String str = new String(buff, "UTF-8");
+                MyLog.log(len+str);
+
             }
 
             bufin.close();
@@ -183,17 +200,86 @@ public class StorageAPI {
 
         try {
             File file = new File((sourcepath));
+            MyLog.log(sourcepath);
             FileInputStream fin = new FileInputStream(new File(sourcepath));
             BufferedInputStream bufread = new BufferedInputStream(fin);
 
             long size = file.length();
 
 
-            HttpURLConnection connection = (HttpURLConnection) new URL(user.getStorageUrl()+sourcepath).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(user.getStorageUrl()+despath+"/"+filename).openConnection();
+            MyLog.log(user.getStorageUrl()+despath+"/"+filename);
+            connection.setRequestProperty("X-Auth-Token", user.getToken().getId());
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            connection.setFixedLengthStreamingMode((int) size);
+            MyLog.log((int) size+"");
+            OutputStream out = new BufferedOutputStream(connection.getOutputStream());
+
+            byte[] buff = new byte[1024*5];
+
+            int len;
+            int total = 0;
+            int lastUpdated = 0;
+            int percent = 0;
+            while((len=bufread.read(buff))!=-1){
+                total+= len;
+                MyLog.log(len+"");
+                out.write(buff, 0, len);
+                String str = new String(buff, "UTF-8");
+                MyLog.log(str);
+            }
+
+            bufread.close();;
+            fin.close();
+            out.close();
+
+            int statusCode = connection.getResponseCode();
+            MyLog.log(statusCode + connection.getResponseMessage());
+            if(statusCode != 201){
+                return false;
+            }
         } catch (IOException e) {
             MyLog.log(e.toString());
+            return false;
         }
 
         return true;
     }
+    public boolean createFolder(String path){
+        if(path.charAt(path.length()-1)!='/') path+="/";
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(user.getStorageUrl()+path).openConnection();
+            MyLog.log(user.getStorageUrl() + path);
+            connection.setRequestProperty("X-Auth-Token", user.getToken().getId());
+            MyLog.log(user.getToken().getId());
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+
+            int statuscode = connection.getResponseCode();
+            MyLog.log(statuscode+ connection.getResponseMessage());
+        } catch (IOException e) {
+            MyLog.log(e.toString());
+        }
+        return true;
+    }
+
+    public boolean deleteFileorEmptyfolder(String path){
+
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(user.getStorageUrl()+path).openConnection();
+            MyLog.log(user.getStorageUrl() + path);
+            connection.setRequestProperty("X-Auth-Token", user.getToken().getId());
+            MyLog.log(user.getToken().getId());
+            connection.setRequestMethod("DELETE");
+
+            int statuscode = connection.getResponseCode();
+            MyLog.log(statuscode+ connection.getResponseMessage());
+        } catch (IOException e) {
+            MyLog.log(e.toString());
+        }
+        return true;
+    }
+
+
 }

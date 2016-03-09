@@ -22,6 +22,7 @@ public class MyFile {
     }
 
     public String toString(){
-        return "path: "+path+"\nname: "+name+"\nsize: "+size;
+        return "path: "+path+"\nname: "+name+"\nsize: "
+                +size+"\nlast modified:"+last_modified+"\n";
     }
 }

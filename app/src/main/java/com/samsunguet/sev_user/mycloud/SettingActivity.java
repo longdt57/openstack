@@ -16,18 +16,33 @@ import android.widget.TextView;
 public class SettingActivity  extends Activity{
 
     FloatingActionButton fab;
-    ImageView imgAvatar,imgCover;
+    ImageView imgAvatar,imgCover,imgBackInSetting;
     TextView tvUserName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_activity);
 
         //REGISTERY
-        fab = (FloatingActionButton) findViewById(R.id.floatButton);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         imgAvatar = (ImageView)findViewById(R.id.imgAvatarInSetting);
         imgCover = (ImageView)findViewById(R.id.imgCoverInSetting);
         tvUserName = (TextView)findViewById(R.id.tvUserNameInSetting);
+        imgBackInSetting = (ImageView)findViewById(R.id.imgBackInSetting);
+
+        imgBackInSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         // ACTION EDIT PROFILE
 
     }
